@@ -18,7 +18,7 @@
 
 package donald.doe2_runner;
 
-import booker.building_data.UpdateListener;
+import otis.lexical.UpdateListener;
 
 public class BDLErrorListener implements UpdateListener {
 
@@ -34,7 +34,7 @@ public class BDLErrorListener implements UpdateListener {
 
 	@Override
 	public void update(String message) {
-		if (message.startsWith(" *** DUE TO THESE ERRORS NO SIMULATION WILL BE PERFORMED")) {
+		if (message.contains("*** DUE TO THESE ERRORS NO SIMULATION WILL BE PERFORMED")) {
 			isError = true;
 		}
 

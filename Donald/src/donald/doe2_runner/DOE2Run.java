@@ -21,35 +21,53 @@ package donald.doe2_runner;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import booker.building_data.UpdateListener;
+import otis.lexical.UpdateListener;
 
-public class DOE2Run {
+public class DOE2Run implements Runnable {
 
 	private String inpFileName;
 	private String location;
 	private ArrayList<UpdateListener> updateListeners;
+	private ArrayList<SimulationCompleteListener> simulationCompleteListeners;
 	private BDLErrorListener errorListener;
+	private boolean debugMode;
 
-	public DOE2Run(String inpFileName, String location){
+	public DOE2Run(String inpFileName, String location, boolean debugMode){
 		this.inpFileName = inpFileName;
 		this.location = location;
 		updateListeners = new ArrayList<UpdateListener>();
+		simulationCompleteListeners = new ArrayList<SimulationCompleteListener>();
 		errorListener = new BDLErrorListener();
 		updateListeners.add(errorListener);
+		this.debugMode = debugMode;
 		
 	}
 
-	public void addListener(UpdateListener updateListener){
+	public void addUpdateListener(UpdateListener updateListener){
 		updateListeners.add(updateListener);
 	}
+	
+	public void addSimulationCompleteListener(SimulationCompleteListener simulationCompleteListener){
+		simulationCompleteListeners.add(simulationCompleteListener);
+	}
 
+	@Override
 	public void run() {
+		
 		try {
 			Runtime runtime = Runtime.getRuntime();
-			Process doeProcess = runtime.exec("c:\\doe22\\doe22.bat exe48r " + "\""+inpFileName+"\"" + " " + "\""+location+"\"");
-			StreamInterceptor streamInterceptor = new StreamInterceptor(doeProcess.getInputStream(),new DOE2SimProgressUpdater(updateListeners));
+			//Process doeProcess = runtime.exec("c:\\doe22\\doe22.bat exe48y " + "\""+inpFileName+"\"" + " " + location);
+			for(UpdateListener updateListener:updateListeners){
+				updateListener.update("Running Simulation: " + inpFileName.substring(inpFileName.lastIndexOf("\\") + 1, inpFileName.length()));
+			}
+			Process doeProcess = runtime.exec("c:\\doe22\\doe22.bat exe48y " + "\""+ inpFileName + "\""+ " " + "\""+ location + "\"");
+			StreamInterceptor streamInterceptor = new StreamInterceptor(doeProcess.getInputStream(),new DOE2SimProgressUpdater(updateListeners,debugMode));
 			streamInterceptor.start();
 			doeProcess.waitFor();
+			for(SimulationCompleteListener simulationCompleteListener: simulationCompleteListeners){
+				simulationCompleteListener.simulationComplete(isError());
+			}
+			//System.out.println("FINISHED");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {

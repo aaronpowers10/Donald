@@ -19,16 +19,19 @@
 package donald.doe2_runner;
 
 import java.util.ArrayList;
-import booker.building_data.UpdateListener;
+
+import otis.lexical.UpdateListener;
 
 public class DOE2SimProgressUpdater implements UpdateListener {
 
 	private ArrayList<UpdateListener> updateListeners;
 	private String updateHeader;
+	private boolean debugMode;
 
-	public DOE2SimProgressUpdater(ArrayList<UpdateListener> updateListeners) {
+	public DOE2SimProgressUpdater(ArrayList<UpdateListener> updateListeners, boolean debugMode) {
 		this.updateListeners = updateListeners;
 		updateHeader = "";
+		this.debugMode = debugMode;
 	}
 
 	@Override
@@ -44,11 +47,11 @@ public class DOE2SimProgressUpdater implements UpdateListener {
 		} else if (message.startsWith("Starting ECONOMIC")) {
 			updateHeader = "Running ECONOMIC: ";
 		}
-
-		if (isTimeStamp(message)) {
+		if(debugMode){
+			updateListeners(updateHeader + message);
+		} else if (isTimeStamp(message)) {
 			updateListeners(updateHeader + message);
 		}
-
 	}
 
 	private void updateListeners(String message) {

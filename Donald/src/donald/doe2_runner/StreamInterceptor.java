@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import booker.building_data.UpdateListener;
+import otis.lexical.UpdateListener;
 
 public class StreamInterceptor extends Thread {
 
