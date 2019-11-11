@@ -28,7 +28,7 @@ public class DOE2Run implements Runnable {
 	private String inpFileName;
 	private String location;
 	private ArrayList<UpdateListener> updateListeners;
-	private ArrayList<SimulationCompleteListener> simulationCompleteListeners;
+	private ArrayList<DOE2SimCompleteListener> simulationCompleteListeners;
 	private BDLErrorListener errorListener;
 	private boolean debugMode;
 
@@ -36,7 +36,7 @@ public class DOE2Run implements Runnable {
 		this.inpFileName = inpFileName;
 		this.location = location;
 		updateListeners = new ArrayList<UpdateListener>();
-		simulationCompleteListeners = new ArrayList<SimulationCompleteListener>();
+		simulationCompleteListeners = new ArrayList<DOE2SimCompleteListener>();
 		errorListener = new BDLErrorListener();
 		updateListeners.add(errorListener);
 		this.debugMode = debugMode;
@@ -47,7 +47,7 @@ public class DOE2Run implements Runnable {
 		updateListeners.add(updateListener);
 	}
 	
-	public void addSimulationCompleteListener(SimulationCompleteListener simulationCompleteListener){
+	public void addSimulationCompleteListener(DOE2SimCompleteListener simulationCompleteListener){
 		simulationCompleteListeners.add(simulationCompleteListener);
 	}
 
@@ -64,7 +64,7 @@ public class DOE2Run implements Runnable {
 			StreamInterceptor streamInterceptor = new StreamInterceptor(doeProcess.getInputStream(),new DOE2SimProgressUpdater(updateListeners,debugMode));
 			streamInterceptor.start();
 			doeProcess.waitFor();
-			for(SimulationCompleteListener simulationCompleteListener: simulationCompleteListeners){
+			for(DOE2SimCompleteListener simulationCompleteListener: simulationCompleteListeners){
 				simulationCompleteListener.simulationComplete(isError());
 			}
 			//System.out.println("FINISHED");

@@ -17,7 +17,7 @@
  */
 package donald.doe2_runner;
 
-public interface SimulationCompleteListener {
+public interface DOE2SimCompleteListener {
 	
 	public void simulationComplete(boolean isError);
 
