@@ -1,0 +1,30 @@
+$LIST ECHO COMMENTS ..
+$  =======================================================
+$  BEGIN ===   DOE-2.2 BDL Default Library Expression Code
+$  =======================================================
+$               VERSION:  Beta 027  date  7/30/97
+$  Authors:     S.D. Gates, J.J. Hirsch, S.A. Criswell
+$               James J. Hirsch & Associates
+$               (Gates Engineering and SAC Software)
+$
+$ Copyright (c) 1997 by James J. Hirsch. All Rights Reserved. Unpublished 
+$ rights reserved under the Copyright Laws of the United States.
+$ RESTRICTED RIGHTS NOTICE: Government use, reproduction or disclosure 
+$ is subject to restrictions as set forth in Rights in Data (g)(3) in 
+$ UC/LBL purchase order 4607010 with J.J. Hirsch & Associates.
+$
+
+$ start -------> defaults for DOE-2 batch version only <--------
+ SET-DEFAULT FOR FLOOR SHAPE NO-SHAPE FLOOR-HEIGHT {no_def} ..
+ SET-DEFAULT FOR SPACE SHAPE NO-SHAPE ..
+$ end   -------> defaults for DOE-2 batch version only <--------
+
+$ start -------> defaults for DOE-2 interactive version only <--------
+
+$ end   -------> defaults for DOE-2 interactive version only <--------
+
+$  =======================================================
+$  END   ========   DOE-2.2 BDL Defaults Library  ========
+$  =======================================================
+$LIST WARNINGS ECHO ..
+END ..
