@@ -96,9 +96,12 @@ public class DOE2Run implements Runnable {
 			streamInterceptor.start();
 			doeProcess.waitFor();
 			
+			
+			
+			File bdlFile = new File("DOEBDL.OUT");
+			bdlFile.renameTo(new File(inpFileName + ".BDL"));
+			
 			File simFile = new File("DOESIM.OUT");
-			System.out.println(simFile.getAbsolutePath());
-			System.out.println(inpFileName);
 			simFile.renameTo(new File(inpFileName + ".SIM"));
 
 		} catch (IOException e) {
@@ -156,7 +159,9 @@ public class DOE2Run implements Runnable {
 		deleteFile("INPUT2.TMP");
 		deleteFile("DOESIM.TXT");
 		deleteFile("plt.wth");
-		deleteFile("USR.LIB");
+		deleteFile("USRLIB.DAT");
+		deleteFile("DOEBDL.OUT");
+		deleteFile("DOESIM.OUT");
 	}
 
 	private void deleteFile(String fileName) {
